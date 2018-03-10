@@ -1,12 +1,27 @@
-FROM kallikrein/cordova:5.1.1
+FROM node:9
 
-MAINTAINER Thomas Charlat
+MAINTAINER Tinco Andringa
+
+RUN apt-get update && apt install -y software-properties-common && \
+  rm -rf /var/lib/apt/lists/*
+
+# Install Java.
 RUN \
-apt-get update && \
-apt-get install -y lib32stdc++6 lib32z1
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" && \
+  apt-get update && \
+  apt-get install -y oracle-java8-installer lib32stdc++6 lib32z1 curl unzip gradle && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk7-installer
+
+# Define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+
+# install cordova
+RUN npm i -g cordova
 
 # download and extract android sdk
-RUN curl http://dl.google.com/android/android-sdk_r24.2-linux.tgz | tar xz -C /usr/local/
+RUN curl https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip > android.zip && unzip android.zip -d /usr/local/android-sdk-linux
 ENV ANDROID_HOME /usr/local/android-sdk-linux
 ENV PATH $PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
