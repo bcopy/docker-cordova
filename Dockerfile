@@ -5,17 +5,16 @@ MAINTAINER Olivier Bourdoux
 RUN apt-get update && apt install -y software-properties-common
 
 # Install Java.
-RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y "deb http://ppa.launchpad.net/cwchien/gradle/ubuntu xenial main" && \
-  add-apt-repository -y "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer lib32stdc++6 lib32z1 curl unzip gradle usbutils && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk7-installer
+# jdk8
+# https://github.com/carlos3g/my-linux-workspace/blob/d29a68ef7c/ubuntu/workspace.sh
+RUN apt-get update && \
+    add-apt-repository ppa:webupd8team/java && \
+    apt-get -y update && \
+    apt-get -y install oracle-java8-installer lib32stdc++6 lib32z1 curl unzip gradle usbutils && \
+    rm -r /var/lib/apt/lists/*
 
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+# FROM export JAVA_HOME=$(update-alternatives --query javac | sed -n -e 's/Best: *\(.*\)\/bin\/javac/\1/p')
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
 # install cordova
 RUN npm i -g cordova

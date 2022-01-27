@@ -23,7 +23,7 @@ I don't want to install and configure Java, Android SDK, Ant, cordova etc.. life
     docker build -t cordova .
     alias mine='sudo chown -R $USER'
     alias drun='docker run -it --rm'
-    alias cordova='drun --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova'
+    alias cordova='docker run -it --rm --privileged -v /dev/bus/usb:/dev/bus/usb -v $PWD:/src cordova cordova'
 
 The alias command lets you use `cordova` for running any command inside the cordova container.
 
