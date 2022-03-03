@@ -18,7 +18,7 @@ I don't want to install and configure Java, Android SDK, Ant, cordova etc.. life
 
 ## Setup
 
-    git clone git@github.com:oren/docker-cordova.git
+    git clone git@github.com:bcopy/docker-cordova.git
     cd docker-cordova
     docker build -t cordova .
     alias mine='sudo chown -R $USER'
